@@ -131,7 +131,13 @@ function format(parseTree, options = {}) {
     //
     // [a, b, c]
 
-    return "TODO: Implement formatArrayLiteral()";
+    if (node.elements.length === 0) {
+      return "[]";
+    }
+
+    const elements = node.elements.map((elem) => formatNode(elem)).join(", ");
+
+    return `[${elements}]`;
   }
 
   /**
@@ -151,7 +157,10 @@ function format(parseTree, options = {}) {
     //
     // foo(arg1, arg2)
 
-    return "TODO: Implement formatCallExpression()";
+    const callee = formatNode(node.callee);
+    const args = node.arguments.map((args) => formatNode(args)).join(", ");
+
+    return `${callee}(${args})`;
   }
 
   /**
@@ -171,8 +180,10 @@ function format(parseTree, options = {}) {
     // Example of a correctly-formatted call:
     //
     // a + b
+    const lhs = formatNode(node.left);
+    const rhs = formatNode(node.right);
 
-    return "TODO: Implement formatBinaryExpression()";
+    return `${lhs} ${node.operator} ${rhs}`;
   }
 
   /**
